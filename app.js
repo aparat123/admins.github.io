@@ -9,7 +9,10 @@ var config = {
   firebase.initializeApp(config);
   var firestore = firebase.firestore();
 
-  const docRef = firestore.doc("filter/param");
+  const docRefStatus = firestore.doc("filter/paramStatus");
+  const docRefCountry = firestore.doc("filter/paramCountry");
+  const docRefUrl = firestore.doc("filter/paramUrl");
+
   const pokerStatusOutput = document.querySelector("#PokerStatusOutput");
   const latestPokerStatus = document.querySelector("#latestPokerStatus");
   const saveStatusButton = document.querySelector("#saveStatusButton");
@@ -27,7 +30,7 @@ var config = {
 
   saveStatusButton.addEventListener("click", function() {
       const newStatus = latestPokerStatus.value;
-      docRef.set({
+      docRefStatus.set({
           Status: newStatus
       }).then(function() {
           console.log("Status saved!");
@@ -37,7 +40,7 @@ var config = {
   });
 
   loadStatusButton.addEventListener("click", function() {
-      docRef.get("Status").then(function (doc) {
+      docRefStatus.get("Status").then(function (doc) {
           if (doc && doc.exists) {
               const myData = doc.data();
               pokerStatusOutput.innerText = "Poker status: " + myData.Status;
@@ -49,7 +52,7 @@ var config = {
 
   saveCountryButton.addEventListener("click", function() {
       const newCountry = latestPokerCountry.value;
-      docRef.set({
+      docRefCountry.set({
           Country: newCountry
       }).then(function() {
           console.log("Status saved!");
@@ -59,7 +62,7 @@ var config = {
   });
 
   loadCountryButton.addEventListener("click", function() {
-      docRef.get("Contry").then(function (doc) {
+      docRefCountry.get("Contry").then(function (doc) {
           if (doc && doc.exists) {
               const myData = doc.data();
               pokerCountryOutput.innerText = "Poker country: " + myData.Country;
@@ -71,7 +74,7 @@ var config = {
 
   saveUrlButton.addEventListener("click", function() {
       const newUrl = latestPokerStatus.value;
-      docRef.set({
+      docRefUrl.set({
           Url: newUrl
       }).then(function() {
           console.log("Url saved!");
@@ -81,7 +84,7 @@ var config = {
   });
 
   loadUrlButton.addEventListener("click", function() {
-      docRef.get("Url").then(function (doc) {
+      docRefUrl.get("Url").then(function (doc) {
           if (doc && doc.exists) {
               const myData = doc.data();
               pokerUrlOutput.innerText = "Poker url: " + myData.Url;
@@ -92,15 +95,27 @@ var config = {
   });
 
   getRealtimeUpdates = function() {
-      docRef.onSnapshot({includeMetadataChanges: false}, function (doc) {
+      docRefStatus.onSnapshot({includeMetadataChanges: false}, function (doc) {
         if (doc && doc.exists) {
             const myData = doc.data();
             console.log("Check out this document I received ", doc);
               pokerStatusOutput.innerText = "Poker status: " + myData.Status;
-              pokerCountryOutput.innerText = "Poker country: " + myData.Country;
-              pokerUrlOutput.innerText = "Poker url: " + myData.Url;
-        }
-      })
+            }
+          })
+          docRefCountry.onSnapshot({includeMetadataChanges: false}, function (doc) {
+            if (doc && doc.exists) {
+                const myData = doc.data();
+                console.log("Check out this document I received ", doc);
+                pokerCountryOutput.innerText = "Poker country: " + myData.Country;
+              }
+            })
+            docRefUrl.onSnapshot({includeMetadataChanges: false}, function (doc) {
+              if (doc && doc.exists) {
+                  const myData = doc.data();
+                  console.log("Check out this document I received ", doc);
+                  pokerUrlOutput.innerText = "Poker url: " + myData.Url;
+                }
+              })
   }
 
   getRealtimeUpdates();
