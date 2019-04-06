@@ -10,16 +10,15 @@ var config = {
   var firestore = firebase.firestore();
 
   const docRef = firestore.doc("filter/param");
-  const outputHeader = document.querySelector("#hotDogOutput");
-  const inputTextField = document.querySelector("#latestHotDogStatus");
-  const saveButton = document.querySelector("#saveButton");
-  const loadButton = document.querySelector("#loadButton");
+  const pokerStatusOutput = document.querySelector("#PokerStatusOutput");
+  const latestPokerStatus = document.querySelector("#latestPokerStatus");
+  const saveStatusButton = document.querySelector("#saveStatusButton");
+  const loadStatusButton = document.querySelector("#loadStatusButton");
 
-  saveButton.addEventListener("click", function() {
-      const textToSave = inputTextField.value;
-      console.log("I am going to save " + textToSave + " to Firestore");
+  saveStatusButton.addEventListener("click", function() {
+      const newStatus = latestPokerStatus.value;
       docRef.set({
-          hotDogStatus: textToSave
+          Status: newStatus
       }).then(function() {
           console.log("Status saved!");
       }).catch(function (error){
@@ -27,8 +26,8 @@ var config = {
       });
   });
 
-  loadButton.addEventListener("click", function() {
-      docRef.get().then(function (doc) {
+  loadStatusButton.addEventListener("click", function() {
+      docRef.get("Status").then(function (doc) {
           if (doc && doc.exists) {
               const myData = doc.data();
               outputHeader.innerText = "Hot dog status: " + myData.hotDogStatus;
@@ -37,15 +36,3 @@ var config = {
           console.log("Got and error: ", error);
       });
   });
-
-  getRealtimeUpdates = function() {
-      docRef.onSnapshot({includeMetadataChanges: false}, function (doc) {
-        if (doc && doc.exists) {
-            const myData = doc.data();
-            console.log("Check out this document I received ", doc);
-            outputHeader.innerText = "Hot dog status: " + myData.hotDogStatus;
-        }
-      })
-  }
-
-  getRealtimeUpdates();
