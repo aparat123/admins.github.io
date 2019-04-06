@@ -27,7 +27,7 @@ var config = {
   });
 
   loadStatusButton.addEventListener("click", function() {
-      docRef.get("Status").then(function (doc) {
+      docRef.get().then(function (doc) {
           if (doc && doc.exists) {
               const myData = doc.data();
               outputHeader.innerText = "Hot dog status: " + myData.hotDogStatus;
