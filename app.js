@@ -15,6 +15,16 @@ var config = {
   const saveStatusButton = document.querySelector("#saveStatusButton");
   const loadStatusButton = document.querySelector("#loadStatusButton");
 
+  const pokerCountryOutput = document.querySelector("#PokerCountryOutput");
+  const latestPokerCountry = document.querySelector("#latestPokerCountry");
+  const saveCountryButton = document.querySelector("#saveCountryButton");
+  const loadCountryButton = document.querySelector("#loadCountryButton");
+
+  const pokerUrlOutput = document.querySelector("#PokerUrlOutput");
+  const latestPokerUrl = document.querySelector("#latestPokerUrl");
+  const saveUrlButton = document.querySelector("#saveUrlButton");
+  const loadUrlButton = document.querySelector("#loadUrlButton");
+
   saveStatusButton.addEventListener("click", function() {
       const newStatus = latestPokerStatus.value;
       docRef.set({
@@ -30,7 +40,51 @@ var config = {
       docRef.get("Status").then(function (doc) {
           if (doc && doc.exists) {
               const myData = doc.data();
-              outputHeader.innerText = "Hot dog status: " + myData.hotDogStatus;
+              pokerStatusOutput.innerText = "Poker status: " + myData.Status;
+          }
+      }).catch(function error() {
+          console.log("Got and error: ", error);
+      });
+  });
+
+  saveCountryButton.addEventListener("click", function() {
+      const newCountry = latestPokerCountry.value;
+      docRef.set({
+          Country: newCountry
+      }).then(function() {
+          console.log("Status saved!");
+      }).catch(function (error){
+          console.log("Got an error: ", error);
+      });
+  });
+
+  loadCountryButton.addEventListener("click", function() {
+      docRef.get("Contry").then(function (doc) {
+          if (doc && doc.exists) {
+              const myData = doc.data();
+              pokerCountryOutput.innerText = "Poker country: " + myData.Country;
+          }
+      }).catch(function error() {
+          console.log("Got and error: ", error);
+      });
+  });
+
+  saveUrlButton.addEventListener("click", function() {
+      const newUrl = latestPokerStatus.value;
+      docRef.set({
+          Url: newUrl
+      }).then(function() {
+          console.log("Url saved!");
+      }).catch(function (error){
+          console.log("Got an error: ", error);
+      });
+  });
+
+  loadUrlButton.addEventListener("click", function() {
+      docRef.get("Url").then(function (doc) {
+          if (doc && doc.exists) {
+              const myData = doc.data();
+              pokerUrlOutput.innerText = "Poker url: " + myData.Url;
           }
       }).catch(function error() {
           console.log("Got and error: ", error);
@@ -42,7 +96,9 @@ var config = {
         if (doc && doc.exists) {
             const myData = doc.data();
             console.log("Check out this document I received ", doc);
-            pokerStatusOutput.innerText = "Hot dog status: " + myData.Status;
+              pokerStatusOutput.innerText = "Poker status: " + myData.Status;
+              pokerCountryOutput.innerText = "Poker country: " + myData.Country;
+              pokerUrlOutput.innerText = "Poker url: " + myData.Url;
         }
       })
   }
