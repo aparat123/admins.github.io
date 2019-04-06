@@ -9,7 +9,7 @@ var config = {
   firebase.initializeApp(config);
   var firestore = firebase.firestore();
 
-  const docRef = firestore.doc("samples/sandwichData");
+  const docRef = firestore.doc("filter/param");
   const outputHeader = document.querySelector("#hotDogOutput");
   const inputTextField = document.querySelector("#latestHotDogStatus");
   const saveButton = document.querySelector("#saveButton");
