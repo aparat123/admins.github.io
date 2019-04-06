@@ -73,11 +73,11 @@ var config = {
   });
 
   saveUrlButton.addEventListener("click", function() {
-      const newUrl = latestPokerStatus.value;
+      const newUrl = latestPokerUrl.value;
       docRefUrl.set({
           Url: newUrl
       }).then(function() {
-          console.log("Url saved!");
+          console.log("Status saved!");
       }).catch(function (error){
           console.log("Got an error: ", error);
       });
