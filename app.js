@@ -18,7 +18,7 @@ var config = {
   saveStatusButton.addEventListener("click", function() {
       const newStatus = latestPokerStatus.value;
       docRef.set({
-          hotDogStatus: newStatus
+          Status: newStatus
       }).then(function() {
           console.log("Status saved!");
       }).catch(function (error){
@@ -27,7 +27,7 @@ var config = {
   });
 
   loadStatusButton.addEventListener("click", function() {
-      docRef.get().then(function (doc) {
+      docRef.get("Status").then(function (doc) {
           if (doc && doc.exists) {
               const myData = doc.data();
               outputHeader.innerText = "Hot dog status: " + myData.hotDogStatus;
@@ -36,3 +36,15 @@ var config = {
           console.log("Got and error: ", error);
       });
   });
+
+  getRealtimeUpdates = function() {
+      docRef.onSnapshot({includeMetadataChanges: false}, function (doc) {
+        if (doc && doc.exists) {
+            const myData = doc.data();
+            console.log("Check out this document I received ", doc);
+            pokerStatusOutput.innerText = "Hot dog status: " + myData.Status;
+        }
+      })
+  }
+
+  getRealtimeUpdates();
