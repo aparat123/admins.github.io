@@ -18,7 +18,7 @@ var config = {
   saveStatusButton.addEventListener("click", function() {
       const newStatus = latestPokerStatus.value;
       docRef.set({
-          Status: newStatus
+          hotDogStatus: newStatus
       }).then(function() {
           console.log("Status saved!");
       }).catch(function (error){
